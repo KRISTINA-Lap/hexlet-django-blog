@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ app_name }}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        nav {
+            margin-bottom: 20px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #ccc;
+        }
+        nav a {
+            margin-right: 15px;
+            text-decoration: none;
+            color: #007bff;
+        }
+        nav a:hover {
+            text-decoration: underline;
+        }
+        .article-list {
+            list-style: none;
+            padding: 0;
+        }
+        .article-item {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="/">Главная</a>
+        <a href="/about/">О блоге</a>
+        <a href="/articles/">Статьи</a>
+    </nav>
+    
+    <h1>Приложение: {{ app_name }}</h1>
+    <p>Добро пожаловать в раздел статей!</p>
+    
+    <h2>Информация о приложении:</h2>
+    <ul>
+        <li><strong>Название:</strong> {{ app_name }}</li>
+        <li><strong>Описание:</strong> {{ description }}</li>
+        <li><strong>Количество статей:</strong> {{ article_count }}</li>
+        <li><strong>Дата создания:</strong> {{ created_date }}</li>
+    </ul>
+    
+    <h2>Теги статей:</h2>
+    <p>{{ tags|join:', ' }}</p>
+    
+    <h2>Примеры статей:</h2>
+    <div class="article-list">
+        {% for article in articles %}
+        <div class="article-item">
+            <h3>{{ article.title }}</h3>
+            <p>{{ article.content }}</p>
+            <small>Автор: {{ article.author }}</small>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
