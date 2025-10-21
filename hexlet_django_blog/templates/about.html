@@ -1,2 +1,27 @@
-<h1>О блоге</h1>
-<p>Эксперименты с Django на Хекслете</p>
+{% extends "base.html" %}
+
+{% block title %}О блоге - Django на Хекслете{% endblock %}
+
+{% block content %}
+    <h1>О блоге</h1>
+    <p>Эксперименты с Django на Хекслете</p>
+    
+    <h2>Что это за проект?</h2>
+    <p>Это учебный проект для изучения фреймворка Django в рамках курса Хекслет.</p>
+    
+    <h2>Технологии</h2>
+    <ul>
+        <li>Django 5.2.4</li>
+        <li>Python</li>
+        <li>HTML</li>
+        <li>CSS</li>
+        <li>Шаблонизация</li>
+    </ul>
+    
+    <h2>Теги статей:</h2>
+    <p>{{ tags|join:', ' }}</p>
+{% endblock %}
+
+{% block footer %}
+    <p>&copy; 2024 Hexlet Django Blog - Страница "О блоге".</p>
+{% endblock %}

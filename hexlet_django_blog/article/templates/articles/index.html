@@ -1,49 +1,8 @@
-<!DOCTYPE html>
-<html lang="ru">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{{ app_name }}</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            line-height: 1.6;
-        }
-        nav {
-            margin-bottom: 20px;
-            padding-bottom: 10px;
-            border-bottom: 1px solid #ccc;
-        }
-        nav a {
-            margin-right: 15px;
-            text-decoration: none;
-            color: #007bff;
-        }
-        nav a:hover {
-            text-decoration: underline;
-        }
-        .article-list {
-            list-style: none;
-            padding: 0;
-        }
-        .article-item {
-            border: 1px solid #ddd;
-            padding: 15px;
-            margin-bottom: 10px;
-            border-radius: 5px;
-        }
-    </style>
-</head>
-<body>
-    <nav>
-        <a href="/">Главная</a>
-        <a href="/about/">О блоге</a>
-        <a href="/articles/">Статьи</a>
-    </nav>
-    
+{% extends "base.html" %}
+
+{% block title %}{{ app_name }} - Django на Хекслете{% endblock %}
+
+{% block content %}
     <h1>Приложение: {{ app_name }}</h1>
     <p>Добро пожаловать в раздел статей!</p>
     
@@ -61,12 +20,19 @@
     <h2>Примеры статей:</h2>
     <div class="article-list">
         {% for article in articles %}
-        <div class="article-item">
+        <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
             <h3>{{ article.title }}</h3>
             <p>{{ article.content }}</p>
             <small>Автор: {{ article.author }}</small>
         </div>
         {% endfor %}
     </div>
-</body>
-</html>
+{% endblock %}
+
+{% block sidebar %}
+    {{ block.super }}
+    <div style="margin-top: 20px; padding: 10px; background-color: #d1ecf1; border-radius: 3px;">
+        <strong>Статьи:</strong>
+        <p>Всего статей: {{ article_count }}</p>
+    </div>
+{% endblock %}

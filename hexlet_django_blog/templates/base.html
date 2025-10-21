@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Django на Хекслете{% endblock %}</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            line-height: 1.6;
+        }
+        #sidebar {
+            float: left;
+            width: 200px;
+            padding: 20px;
+            background-color: #f4f4f4;
+            border-radius: 5px;
+            margin-right: 20px;
+        }
+        #content {
+            margin-left: 240px;
+            padding: 20px;
+        }
+        #sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        #sidebar li {
+            margin-bottom: 10px;
+        }
+        #sidebar a {
+            text-decoration: none;
+            color: #007bff;
+            padding: 5px 10px;
+            display: block;
+            border-radius: 3px;
+        }
+        #sidebar a:hover {
+            background-color: #e9ecef;
+        }
+        footer {
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ccc;
+            text-align: center;
+            color: #666;
+        }
+    </style>
+</head>
+<body>
+    <div id="sidebar">
+        {% block sidebar %}
+            <ul>
+                <li><a href="/">Главная</a></li>
+                <li><a href="/about/">О блоге</a></li>
+                <li><a href="/articles/">Статьи</a></li>
+                <li><a href="/admin/">Админка</a></li>
+            </ul>
+        {% endblock %}
+    </div>
+    
+    <div id="content">
+        {% block content %}{% endblock %}
+    </div>
+    
+    <footer>
+        {% block footer %}
+            <p>&copy; 2024 Hexlet Django Blog. Все права защищены.</p>
+        {% endblock %}
+    </footer>
+</body>
+</html>

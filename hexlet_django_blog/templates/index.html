@@ -1,1 +1,22 @@
-<h1>Hello, {{ who }}!</h1>
+{% extends "base.html" %}
+
+{% block title %}Главная - Django на Хекслете{% endblock %}
+
+{% block content %}
+    <h1>Hello, {{ who }}!</h1>
+    <p>Добро пожаловать в мой первый Django-блог!</p>
+    
+    <div style="background-color: #e7f3ff; padding: 20px; border-radius: 5px; margin: 20px 0;">
+        <h2>О проекте</h2>
+        <p>Этот блог создан в рамках изучения фреймворка Django на платформе Хекслет.</p>
+        <p>Здесь я экспериментирую с шаблонами, маршрутизацией и другими возможностями Django.</p>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ block.super }}
+    <div style="margin-top: 20px; padding: 10px; background-color: #fff3cd; border-radius: 3px;">
+        <strong>Новое:</strong>
+        <p>Добавлена система шаблонов!</p>
+    </div>
+{% endblock %}
