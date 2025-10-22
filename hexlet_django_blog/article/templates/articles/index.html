@@ -1,38 +1,41 @@
 {% extends "base.html" %}
 
-{% block title %}{{ app_name }} - Django на Хекслете{% endblock %}
+{% block title %}Список статей - Django на Хекслете{% endblock %}
 
 {% block content %}
-    <h1>Приложение: {{ app_name }}</h1>
-    <p>Добро пожаловать в раздел статей!</p>
+    <h1>Список статей</h1>
     
-    <h2>Информация о приложении:</h2>
-    <ul>
-        <li><strong>Название:</strong> {{ app_name }}</li>
-        <li><strong>Описание:</strong> {{ description }}</li>
-        <li><strong>Количество статей:</strong> {{ article_count }}</li>
-        <li><strong>Дата создания:</strong> {{ created_date }}</li>
-    </ul>
-    
-    <h2>Теги статей:</h2>
-    <p>{{ tags|join:', ' }}</p>
-    
-    <h2>Примеры статей:</h2>
-    <div class="article-list">
-        {% for article in articles %}
-        <div style="border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 5px;">
-            <h3>{{ article.title }}</h3>
-            <p>{{ article.content }}</p>
-            <small>Автор: {{ article.author }}</small>
+    {% if articles %}
+        <div class="articles-list">
+            {% for article in articles %}
+                <div class="article-item" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px;">
+                    <h2>{{ article.name }}</h2>
+                    <div class="article-body">
+                        {{ article.body|slice:":200" }}
+                        {% if article.body|length > 200 %}...{% endif %}
+                    </div>
+                    <div class="article-meta" style="margin-top: 10px; font-size: 0.9em; color: #666;">
+                        <strong>Создана:</strong> {{ article.created_at|date:"d.m.Y H:i" }}
+                        <strong>Обновлена:</strong> {{ article.updated_at|date:"d.m.Y H:i" }}
+                    </div>
+                </div>
+            {% endfor %}
         </div>
-        {% endfor %}
+    {% else %}
+        <p>Статьи пока не добавлены.</p>
+    {% endif %}
+    
+    <div style="margin-top: 30px; padding: 15px; background-color: #f8f9fa; border-radius: 5px;">
+        <h3>Статистика</h3>
+        <p>Всего статей: {{ articles|length }}</p>
     </div>
 {% endblock %}
 
 {% block sidebar %}
     {{ block.super }}
-    <div style="margin-top: 20px; padding: 10px; background-color: #d1ecf1; border-radius: 3px;">
+    <div style="margin-top: 20px; padding: 10px; background-color: #e7f3ff; border-radius: 3px;">
         <strong>Статьи:</strong>
-        <p>Всего статей: {{ article_count }}</p>
+        <p>Показано: {{ articles|length }} статей</p>
+        <a href="/admin/article/article/add/" style="font-size: 0.9em;">Добавить статью</a>
     </div>
 {% endblock %}

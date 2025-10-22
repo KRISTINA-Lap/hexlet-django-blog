@@ -47,21 +47,30 @@ class ArticleTest(TestCase):
     def test_articles_list_without_parameters_content(self):
         """Тест проверяет содержание страницы списка статей"""
         response = self.client.get('/articles/')
-        self.assertContains(response, "Articles App")
-        self.assertContains(response, "Приложение для управления статьями блога")
+        self.assertContains(response, "Список статей")
+        self.assertContains(response, "Тестовая статья 1")
+        self.assertContains(response, "Тестовая статья 2")
+        self.assertContains(response, "Всего статей: 2")
 
     def test_articles_list_context_data(self):
         """Тест проверяет что в контекст передаются правильные данные"""
         response = self.client.get('/articles/')
-        self.assertIn('app_name', response.context)
         self.assertIn('articles', response.context)
-        self.assertEqual(response.context['app_name'], 'Articles App')
-        self.assertEqual(len(response.context['articles']), 3)  # 3 тестовые статьи из view
+        articles = response.context['articles']
+        self.assertEqual(len(articles), 2)
+        self.assertEqual(articles[0].name, "Тестовая статья 1")
+        self.assertEqual(articles[1].name, "Тестовая статья 2")
+
+    def test_articles_list_shows_articles_from_db(self):
+        """Тест проверяет что список статей показывает статьи из базы данных"""
+        response = self.client.get('/articles/')
+        self.assertContains(response, "Тестовая статья 1")
+        self.assertContains(response, "Тестовая статья 2")
 
     def test_home_page_redirect(self):
         """Тест проверяет что главная страница перенаправляет на статью"""
         response = self.client.get('/')
-        self.assertEqual(response.status_code, 302)  # 302 - redirect
+        self.assertEqual(response.status_code, 302)
         self.assertRedirects(
             response, 
             reverse('article', kwargs={'tags': 'python', 'article_id': 42})
@@ -98,7 +107,6 @@ class ArticleWithFixturesTest(TestCase):
         self.assertTrue(articles.count() > 0)
         print(f"Загружено статей из фикстуры: {articles.count()}")
         
-        # Проверяем конкретные статьи
         article1 = Article.objects.get(pk=1)
         self.assertEqual(article1.name, "Введение в Django")
         
