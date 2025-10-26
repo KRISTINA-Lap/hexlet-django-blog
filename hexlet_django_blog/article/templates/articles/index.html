@@ -9,7 +9,11 @@
         <div class="articles-list">
             {% for article in articles %}
                 <div class="article-item" style="border: 1px solid #ddd; padding: 20px; margin-bottom: 20px; border-radius: 5px;">
-                    <h2>{{ article.name }}</h2>
+                    <h2>
+                        <a href="{% url 'article_detail' id=article.id %}" style="text-decoration: none; color: #333;">
+                            {{ article.name }}
+                        </a>
+                    </h2>
                     <div class="article-body">
                         {{ article.body|slice:":200" }}
                         {% if article.body|length > 200 %}...{% endif %}
@@ -17,6 +21,9 @@
                     <div class="article-meta" style="margin-top: 10px; font-size: 0.9em; color: #666;">
                         <strong>Создана:</strong> {{ article.created_at|date:"d.m.Y H:i" }}
                         <strong>Обновлена:</strong> {{ article.updated_at|date:"d.m.Y H:i" }}
+                        <a href="{% url 'article_detail' id=article.id %}" style="margin-left: 15px; font-size: 0.8em;">
+                            Читать полностью →
+                        </a>
                     </div>
                 </div>
             {% endfor %}

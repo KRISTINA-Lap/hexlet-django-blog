@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+
+{% block title %}{{ article.name }} - Django на Хекслете{% endblock %}
+
+{% block content %}
+    <div class="article-detail">
+        <h1>{{ article.name }}</h1>
+        
+        <div class="article-meta" style="margin-bottom: 20px; padding: 10px; background-color: #f8f9fa; border-radius: 5px;">
+            <strong>Создана:</strong> {{ article.created_at|date:"d.m.Y H:i" }}
+            <strong>Обновлена:</strong> {{ article.updated_at|date:"d.m.Y H:i" }}
+        </div>
+        
+        <div class="article-body" style="line-height: 1.6; font-size: 1.1em;">
+            {{ article.body|linebreaks }}
+        </div>
+        
+        <div style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #ddd;">
+            <a href="{% url 'articles' %}" class="btn-back">← Назад к списку статей</a>
+        </div>
+    </div>
+{% endblock %}
+
+{% block sidebar %}
+    {{ block.super }}
+    <div style="margin-top: 20px; padding: 10px; background-color: #e7f3ff; border-radius: 3px;">
+        <strong>Текущая статья:</strong>
+        <p>{{ article.name|truncatewords:5 }}</p>
+        <a href="/admin/article/article/{{ article.id }}/change/" style="font-size: 0.9em;">Редактировать</a>
+    </div>
+{% endblock %}

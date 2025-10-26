@@ -76,6 +76,25 @@ class ArticleTest(TestCase):
             reverse('article', kwargs={'tags': 'python', 'article_id': 42})
         )
 
+    def test_article_detail_page(self):
+        """Тест проверяет страницу просмотра конкретной статьи"""
+        response = self.client.get(reverse('article_detail', kwargs={'id': self.article1.id}))
+        self.assertEqual(response.status_code, 200)
+        self.assertContains(response, self.article1.name)
+        self.assertContains(response, self.article1.body)
+        self.assertTemplateUsed(response, 'articles/show.html')
+
+    def test_article_detail_nonexistent(self):
+        """Тест проверяет 404 для несуществующей статьи"""
+        response = self.client.get(reverse('article_detail', kwargs={'id': 999}))
+        self.assertEqual(response.status_code, 404)
+
+    def test_article_list_links_to_detail(self):
+        """Тест проверяет что в списке статей есть ссылки на детальный просмотр"""
+        response = self.client.get('/articles/')
+        self.assertContains(response, f'href="/articles/{self.article1.id}/"')
+        self.assertContains(response, f'href="/articles/{self.article2.id}/"')
+
 
 class ArticleModelTest(TestCase):
     def test_article_creation(self):
