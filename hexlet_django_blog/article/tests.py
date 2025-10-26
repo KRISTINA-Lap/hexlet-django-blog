@@ -95,6 +95,45 @@ class ArticleTest(TestCase):
         self.assertContains(response, f'href="/articles/{self.article1.id}/"')
         self.assertContains(response, f'href="/articles/{self.article2.id}/"')
 
+    def test_article_create_form_page(self):
+        """Тест проверяет страницу формы создания статьи"""
+        response = self.client.get(reverse('articles_create'))
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'articles/create.html')
+        self.assertContains(response, 'Создание новой статьи')
+        self.assertContains(response, 'name="name"')
+        self.assertContains(response, 'name="body"')
+
+    def test_article_create_success(self):
+        """Тест проверяет успешное создание статьи"""
+        articles_count_before = Article.objects.count()
+        form_data = {
+            'name': 'Новая тестовая статья',
+            'body': 'Содержание новой тестовой статьи'
+        }
+        response = self.client.post(reverse('articles_create'), form_data)
+    
+        self.assertRedirects(response, reverse('articles'))
+    
+        # Проверяем что статья добавилась в базу
+        self.assertEqual(Article.objects.count(), articles_count_before + 1)
+    
+        # Проверяем флеш-сообщение
+        response = self.client.get(reverse('articles'))
+        self.assertContains(response, 'Новая тестовая статья')
+
+    def test_article_create_validation(self):
+        """Тест проверяет валидацию формы"""
+        form_data = {
+            'name': '',  # Пустое название
+            'body': 'Содержание'
+        }
+        response = self.client.post(reverse('articles_create'), form_data)
+    
+        # Проверяем что остаемся на странице формы с ошибками
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed(response, 'articles/create.html')
+        self.assertContains(response, 'Пожалуйста, исправьте ошибки')
 
 class ArticleModelTest(TestCase):
     def test_article_creation(self):
